@@ -3,6 +3,8 @@ import com.grpc_test_server.grpc.GreetingServiceOuterClass;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+import java.util.Iterator;
+
 public class Client {
     public static void main(String[] args) {
 
@@ -18,10 +20,11 @@ public class Client {
                 .setName("Andrew")
                 .build();
 
-        GreetingServiceOuterClass.HelloResponse response = stub.greeting(request);
+        Iterator<GreetingServiceOuterClass.HelloResponse> response = stub.greeting(request);
 
-        System.out.println(response);
-
+        while (response.hasNext()) {
+            System.out.println(response.next());
+        }
         channel.shutdown();
     }
 }
